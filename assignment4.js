@@ -12,12 +12,14 @@
 // keyup events could be helpful to get value of field as the user types
 
 var APIurl = 'http://www.mattbowytz.com/simple_api.json?data=all';
+var Comicurl = 'http://www.mattbowytz.com/simple_api.json?data=comics';
 var code;
 var data;
 var info;
 var status;
 var interests;
 var programming;
+var comics;
 
 (function() {
 
@@ -34,6 +36,17 @@ var programming;
     console.log(status);
     console.log(interests);
     console.log(programming);
+  })
+
+  $.getJSON(Comicurl, function(y){
+    code = y.code;
+    comics = y.data;
+    info = y.info;
+    status = y.status;
+    console.log(y);
+    console.log(code);
+    console.log(status);
+    console.log(comics);
   })
 
   $('.flexsearch-input').keyup(function(){
@@ -61,7 +74,15 @@ var programming;
           $('.results').append('<br><a href=http://www.google.com/search?q='+programplus+'>'+program+'</a>');
         }
       };
-
+      $('.results').append("<br></br><b>Results from Comics:</b>");
+      $('.results').append("<hr>");
+      for (var i=0; i < comics.length; i++) {
+        var comic = comics[i];
+        if(searchTerm == comic.substring(0, searchTerm.length).toLowerCase()){
+          comicplus = comic.replace(" ","+");
+          $('.results').append('<br><a href=http://www.google.com/search?q='+comicplus+'>'+comic+'</a>');
+        }
+      };
     }
     else {
       $('.results').html("");
